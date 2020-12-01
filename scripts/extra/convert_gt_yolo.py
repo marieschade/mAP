@@ -1,7 +1,14 @@
+import argparse
+
 import sys
 import os
 import glob
 import cv2
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--detection_res', type=bool, default=False, help='set if converting detection results containing conf score')
+    opt = parser.parse_args()
 
 def convert_yolo_coordinates_to_voc(x_c_n, y_c_n, width_n, height_n, img_width, img_height):
   ## remove normalization given the size of the image
@@ -79,10 +86,13 @@ for tmp_file in txt_list:
     for line in content:
       ## split a line by spaces.
       ## "c" stands for center and "n" stands for normalized
-      obj_id, x_c_n, y_c_n, width_n, height_n = line.split()
+      obj_id, conf, x_c_n, y_c_n, width_n, height_n = line.split()
       obj_name = obj_list[int(obj_id)]
       left, top, right, bottom = convert_yolo_coordinates_to_voc(x_c_n, y_c_n, width_n, height_n, img_width, img_height)
       ## add new line to file
       #print(obj_name + " " + str(left) + " " + str(top) + " " + str(right) + " " + str(bottom))
-      new_f.write(obj_name + " " + str(left) + " " + str(top) + " " + str(right) + " " + str(bottom) + '\n')
+      if detection_res:
+        new_f.write(obj_name + " " + str(conf) + " " + str(left) + " " + str(top) + " " + str(right) + " " + str(bottom) + '\n') # add class score to detection result .txt files
+      else:
+        new_f.write(obj_name + " " + str(left) + " " + str(top) + " " + str(right) + " " + str(bottom) + '\n')
 print("Conversion completed!")
