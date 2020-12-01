@@ -98,7 +98,13 @@ for tmp_file in txt_list:
       ## add new line to file
       #print(obj_name + " " + str(left) + " " + str(top) + " " + str(right) + " " + str(bottom))
       if detection_res:
+        obj_id, conf, x_c_n, y_c_n, width_n, height_n = line.split()
+        obj_name = obj_list[int(obj_id)]
+        left, top, right, bottom = convert_yolo_coordinates_to_voc(x_c_n, y_c_n, width_n, height_n, img_width, img_height)
         new_f.write(obj_name + " " + str(conf) + " " + str(left) + " " + str(top) + " " + str(right) + " " + str(bottom) + '\n') # add class score to detection result .txt files
       else:
+        obj_id, x_c_n, y_c_n, width_n, height_n = line.split()
+        obj_name = obj_list[int(obj_id)]
+        left, top, right, bottom = convert_yolo_coordinates_to_voc(x_c_n, y_c_n, width_n, height_n, img_width, img_height)
         new_f.write(obj_name + " " + str(left) + " " + str(top) + " " + str(right) + " " + str(bottom) + '\n')
 print("Conversion completed!")
