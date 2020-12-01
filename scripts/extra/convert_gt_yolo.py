@@ -5,12 +5,12 @@ import os
 import glob
 import cv2
 
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--detection_res', type=bool, default=False, help='set if converting detection results containing conf score')
-    opt = parser.parse_args()
+parser = argparse.ArgumentParser()
+parser.add_argument('--mode', type=str, default = "ground-truth", help='chose whether to convert ground truth or detection result .txt files')
+opt = parser.parse_args()
+print(opt)
 
-detection_res = opt.detection_res
+mode = opt.mode
     
 def convert_yolo_coordinates_to_voc(x_c_n, y_c_n, width_n, height_n, img_width, img_height):
   ## remove normalization given the size of the image
@@ -44,7 +44,7 @@ with open("class_list.txt") as f:
 parent_path = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
 parent_path = os.path.abspath(os.path.join(parent_path, os.pardir))
 
-if detection_res:
+if mode == "detection-results":
     GT_PATH = os.path.join(parent_path, 'input','detection-results')
 else:
     GT_PATH = os.path.join(parent_path, 'input','ground-truth')
@@ -92,12 +92,9 @@ for tmp_file in txt_list:
     for line in content:
       ## split a line by spaces.
       ## "c" stands for center and "n" stands for normalized
-      obj_id, conf, x_c_n, y_c_n, width_n, height_n = line.split()
-      obj_name = obj_list[int(obj_id)]
-      left, top, right, bottom = convert_yolo_coordinates_to_voc(x_c_n, y_c_n, width_n, height_n, img_width, img_height)
       ## add new line to file
       #print(obj_name + " " + str(left) + " " + str(top) + " " + str(right) + " " + str(bottom))
-      if detection_res:
+      if mode == "detection-results":
         obj_id, conf, x_c_n, y_c_n, width_n, height_n = line.split()
         obj_name = obj_list[int(obj_id)]
         left, top, right, bottom = convert_yolo_coordinates_to_voc(x_c_n, y_c_n, width_n, height_n, img_width, img_height)
