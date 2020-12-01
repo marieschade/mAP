@@ -41,7 +41,11 @@ with open("class_list.txt") as f:
 # change directory to the one with the files to be changed
 parent_path = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
 parent_path = os.path.abspath(os.path.join(parent_path, os.pardir))
-GT_PATH = os.path.join(parent_path, 'input','ground-truth')
+
+if detection_res:
+    GT_PATH = os.path.join(parent_path, 'input','detection-results')
+else:
+    GT_PATH = os.path.join(parent_path, 'input','ground-truth')
 #print(GT_PATH)
 os.chdir(GT_PATH)
 
