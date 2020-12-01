@@ -10,6 +10,8 @@ if __name__ == '__main__':
     parser.add_argument('--detection_res', type=bool, default=False, help='set if converting detection results containing conf score')
     opt = parser.parse_args()
 
+detection_res = opt.detection_res
+    
 def convert_yolo_coordinates_to_voc(x_c_n, y_c_n, width_n, height_n, img_width, img_height):
   ## remove normalization given the size of the image
   x_c = float(x_c_n) * img_width
