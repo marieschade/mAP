@@ -644,8 +644,8 @@ with open(output_files_path + "/output.txt", 'w') as output_file:
                 cv2.rectangle(img_cumulative,(bb[0],bb[1]),(bb[2],bb[3]),color,2)
                 cv2.putText(img_cumulative, class_name, (bb[0],bb[1] - 5), font, 0.6, color, 1, cv2.LINE_AA)
                 # show image
-                cv2.imshow("Animation", img)
-                cv2.waitKey(20) # show for 20 ms
+                #cv2.imshow("Animation", img)
+                #cv2.waitKey(20) # show for 20 ms
                 # save image to output
                 output_img_path = output_files_path + "/images/detections_one_by_one/" + class_name + "_detection" + str(idx) + ".jpg"
                 cv2.imwrite(output_img_path, img)
