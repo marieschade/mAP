@@ -720,8 +720,8 @@ with open(output_files_path + "/output.txt", 'w') as output_file:
             fig.savefig(output_files_path + "/classes/" + class_name + ".png")
             plt.cla() # clear axes for next plot
 
-    if show_animation:
-        cv2.destroyAllWindows()
+    #if show_animation:
+    #    cv2.destroyAllWindows()
 
     output_file.write("\n# mAP of all classes\n")
     mAP = sum_AP / n_classes
